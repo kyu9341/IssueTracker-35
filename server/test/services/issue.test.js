@@ -16,6 +16,7 @@ describe('retrieve', () => {
       // then
       const hasSameSize = issues.length === issueIds.size();
       expect(hasSameSize).toBe(true);
+
       const containsAll = issues.every(issue => issueIds.has(issue.id));
       expect(containsAll).toBe(true);
     },
@@ -51,17 +52,18 @@ describe('create issue', () => {
       title: '첫 번째 이슈',
       content: '내용입니다.',
       is_open: true,
-      user_id: 5,
+      user_id: 1,
     };
 
     // when
     const issueId = await issueService.createIssue(data);
 
     // then
-    expect(issueId).toBe(5);
+    expect(issueId).toBeDefined();
   });
+
   test('with invalid data', async () => {
-    //given
+    // given
     const data = {
       title: '',
       content: '두번째 이슈입니다.',
@@ -69,7 +71,7 @@ describe('create issue', () => {
       user_id: 1,
     };
 
-    //when
+    // when
     const issueId = await issueService.createIssue(data);
 
     // then
@@ -77,13 +79,18 @@ describe('create issue', () => {
   });
 });
 
-describe('update', () => {
+describe('update issue', () => {
   test('update title', async () => {
+    // given
     const data = {
       id: 2,
-      title: '수정 테스트',
+      title: '수정된 제목!',
     };
+
+    // when
     const updateResult = await issueService.updateIssue(data);
+
+    // then
     expect(updateResult).toBe(true);
   });
 });
